@@ -1,16 +1,13 @@
 import axios from 'axios';
 import { type Movie } from '../types/movie.ts';
 
-interface MoviesResponse {
+interface MovArr {
   results: Movie[];
   page: number;
   total_pages: number;
 }
 
-export default async function fetchMovies(
-  query: string,
-  page: number
-): Promise<MoviesResponse> {
+export default async function fetchMovies(query: string, page: number): Promise<MovArr> {
   const response = await axios.get(
     'https://api.themoviedb.org/3/search/movie',
     {
@@ -25,7 +22,6 @@ export default async function fetchMovies(
       },
     }
   );
-  
-  const data: MoviesResponse = response.data;
+  const data: MovArr = response.data;
   return data;
 }
