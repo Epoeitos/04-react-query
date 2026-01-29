@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { type Movie } from '../types/movie.ts';
+import axios from "axios";
+import { type Movie } from "../types/movie.ts";
 
 interface MovArr {
   results: Movie[];
@@ -9,12 +9,12 @@ interface MovArr {
 
 export default async function fetchMovies(query: string, page: number): Promise<MovArr> {
   const response = await axios.get(
-    'https://api.themoviedb.org/3/search/movie',
+    "https://api.themoviedb.org/3/search/movie",
     {
       params: {
         query,
         include_adult: false,
-        language: 'en-US',
+        language: "en-US",
         page,
       },
       headers: {
@@ -22,6 +22,5 @@ export default async function fetchMovies(query: string, page: number): Promise<
       },
     }
   );
-  const data: MovArr = response.data;
-  return data;
+  return response.data as MovArr;
 }
