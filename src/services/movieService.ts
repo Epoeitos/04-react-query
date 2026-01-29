@@ -1,13 +1,7 @@
 import axios from 'axios';
 import { type Movie } from '../types/movie.ts';
 
-interface Answer {
-  data: MovArr;
-  Status: number;
-  StatusText: string;
-}
-
-interface MovArr {
+interface MoviesResponse {
   results: Movie[];
   page: number;
   total_pages: number;
@@ -16,17 +10,22 @@ interface MovArr {
 export default async function fetchMovies(
   query: string,
   page: number
-): Promise<MovArr> {
-  const token: string = import.meta.env.VITE_TMDB_TOKEN;
-
-  const res: Answer = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`,
+): Promise<MoviesResponse> {
+  const response = await axios.get(
+    'https://api.themoviedb.org/3/search/movie',
     {
+      params: {
+        query,
+        include_adult: false,
+        language: 'en-US',
+        page,
+      },
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
       },
     }
   );
-
-  return res.data;
+  
+  const data: MoviesResponse = response.data;
+  return data;
 }
