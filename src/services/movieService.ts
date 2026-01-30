@@ -8,7 +8,8 @@ interface MovArr {
 }
 
 export default async function fetchMovies(query: string, page: number): Promise<MovArr> {
-  const response = await axios.get(
+  // Додаємо <MovArr> сюди 👇
+  const response = await axios.get<MovArr>(
     "https://api.themoviedb.org/3/search/movie",
     {
       params: {
@@ -22,5 +23,7 @@ export default async function fetchMovies(query: string, page: number): Promise<
       },
     }
   );
-  return response.data as MovArr;
+
+  // Тут axios вже знає, що response.data — це MovArr, тому "as" не потрібен
+  return response.data;
 }
